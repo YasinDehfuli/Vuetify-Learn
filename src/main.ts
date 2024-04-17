@@ -7,6 +7,8 @@
 // Plugins
 import { registerPlugins } from './plugins'
 
+import {router} from './routes/routes'
+
 import './assets/scss/main.scss'
 
 
@@ -17,6 +19,8 @@ import App from './App.vue'
 import { createApp } from 'vue'
 
 const app = createApp(App)
+
+app.use(router)
 
 registerPlugins(app)
 
