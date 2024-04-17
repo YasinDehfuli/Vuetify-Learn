@@ -10,9 +10,16 @@ import 'vuetify/styles'
 
 // Composables
 import { createVuetify } from 'vuetify'
+import { fa } from 'vuetify/locale'
 
 // https://vuetifyjs.com/en/introduction/why-vuetify/#feature-guides
 export default createVuetify({
+  locale: {
+    locale: 'fa',
+    fallback: 'fa',
+    messages: { fa },
+    rtl: {fa: true},
+  },
   theme: {
     defaultTheme: 'dark',
   },
