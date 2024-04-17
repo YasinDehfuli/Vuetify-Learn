@@ -1,61 +1,43 @@
 <template>
-  <v-sheet  class="mx-auto ma-10" max-width="400">
-    <v-form validate-on="submit lazy" @submit.prevent="submit">
+  <v-sheet class="mx-auto ma-10" width="500">
+    <v-form fast-fail @submit.prevent>
       <v-text-field
-        v-model="userName"
-        :rules="rules"
-        label="نام و نام خانوادگی"
+        v-model="firstName"
+        :rules="firstNameRules"
+        label="نام"
       ></v-text-field>
 
-      <v-btn
-        :loading="loading"
-        class="mt-2"
-        text="ورود"
-        type="submit"
-        block
-      ></v-btn>
+      <v-text-field
+        v-model="lastName"
+        :rules="lastNameRules"
+        label="نام خانوادگی"
+      ></v-text-field>
+
+      <v-btn class="mt-2" type="submit" block>
+        ارسال
+      </v-btn>
     </v-form>
   </v-sheet>
 </template>
-
-
-<script lang="ts">
+<script>
 export default {
-  data: vm => ({
-    loading: false,
-    rules: [value => vm.checkApi(value)],
-    timeout: null,
-    userName: '',
+  data: () => ({
+    firstName: '',
+    firstNameRules: [
+      value => {
+        if (value?.length > 3) return true
+
+        return 'First name must be at least 3 characters.'
+      },
+    ],
+    lastName: '',
+    lastNameRules: [
+      value => {
+        if (/[^0-9]/.test(value)) return true
+
+        return 'Last name can not contain digits.'
+      },
+    ],
   }),
-
-  methods: {
-    async submit (event) {
-      this.loading = true
-
-      const results = await event
-
-      this.loading = false
-
-      alert(JSON.stringify(results, null, 2))
-    },
-    async checkApi (userName) {
-      return new Promise(resolve => {
-        clearTimeout(this.timeout)
-
-        this.timeout = setTimeout(() => {
-          if (!userName) return resolve('Please enter a user name.')
-          if (userName === 'johnleider') return resolve('User name already taken. Please try another one.')
-
-          return resolve(true)
-        }, 1000)
-      })
-    },
-  },
 }
 </script>
-
-<style scoped>
-.test{
-  margin: 20px;
-}
-</style>
